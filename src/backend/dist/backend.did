@@ -1,0 +1,172 @@
+type UserProgress = 
+ record {
+   acquiredSkills: vec text;
+   careerPathId: CareerPathId;
+   completedCourses: vec text;
+   completedMilestones: vec MilestoneId;
+   startedAt: Timestamp;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type UserProfilePublic = 
+ record {
+   answers: vec AssessmentAnswer;
+   createdAt: Timestamp;
+   currentSkills: vec text;
+   displayName: text;
+   experienceLevel: SkillLevel;
+   interests: vec InterestCategory;
+   learningStyle: LearningStyle;
+   selectedCareerPathId: opt CareerPathId;
+   updatedAt: Timestamp;
+   userId: UserId;
+ };
+type UserId = principal;
+type ToggleMilestoneRequest = 
+ record {
+   completed: bool;
+   milestoneId: MilestoneId;
+ };
+type Timestamp = int;
+type SkillLevel = 
+ variant {
+   advanced;
+   beginner;
+   intermediate;
+ };
+type SkillGap = 
+ record {
+   acquired: vec text;
+   missing: vec text;
+   required: vec text;
+ };
+type SaveProfileRequest = 
+ record {
+   answers: vec AssessmentAnswer;
+   currentSkills: vec text;
+   displayName: text;
+   experienceLevel: SkillLevel;
+   interests: vec InterestCategory;
+   learningStyle: LearningStyle;
+ };
+type SalaryRange = 
+ record {
+   currency: text;
+   max: nat;
+   min: nat;
+ };
+type ResourceType = 
+ variant {
+   article;
+   course;
+   documentation;
+   video;
+ };
+type ResourceId = nat;
+type ProgressSummary = 
+ record {
+   careerTitle: text;
+   completedCount: nat;
+   nextMilestoneId: opt MilestoneId;
+   percentComplete: nat;
+   timelineEstimate: text;
+   totalMilestones: nat;
+ };
+type MilestoneId = nat;
+type Milestone = 
+ record {
+   careerPathId: CareerPathId;
+   description: text;
+   estimatedTime: text;
+   id: MilestoneId;
+   order: nat;
+   projects: vec text;
+   requiredSkills: vec text;
+   resourceIds: vec ResourceId;
+   title: text;
+ };
+type LearningStyle = 
+ variant {
+   auditory;
+   handson;
+   readingWriting;
+   visual;
+ };
+type LearningResource = 
+ record {
+   difficulty: Difficulty;
+   estimatedDuration: text;
+   id: ResourceId;
+   resourceType: ResourceType;
+   skillTag: text;
+   source: text;
+   title: text;
+   url: text;
+ };
+type InterestCategory = 
+ variant {
+   arts;
+   business;
+   education;
+   engineering;
+   healthcare;
+   science;
+   social;
+   technology;
+ };
+type IndustrySector = 
+ variant {
+   business;
+   creative;
+   education;
+   engineering;
+   finance;
+   healthcare;
+   science;
+   social;
+   tech;
+ };
+type Difficulty = 
+ variant {
+   advanced;
+   beginner;
+   intermediate;
+ };
+type CareerPathId = nat;
+type CareerPath = 
+ record {
+   description: text;
+   id: CareerPathId;
+   interestTags: vec text;
+   requiredSkills: vec text;
+   salaryRange: SalaryRange;
+   sector: IndustrySector;
+   title: text;
+ };
+type CareerMatch = 
+ record {
+   career: CareerPath;
+   matchScore: nat;
+ };
+type AssessmentAnswer = 
+ record {
+   answer: text;
+   questionId: nat;
+ };
+service : {
+  addAcquiredSkill: (careerPathId: CareerPathId, skill: text) -> ();
+  getCareer: (id: CareerPathId) -> (opt CareerPath) query;
+  getCareerRecommendations: () -> (vec CareerMatch) query;
+  getMyProfile: () -> (opt UserProfilePublic) query;
+  getMyProgress: () -> (opt UserProgress) query;
+  getProgressSummary: () -> (opt ProgressSummary) query;
+  getResources: (ids: vec ResourceId) -> (vec LearningResource) query;
+  getResourcesBySkill: (skillTag: text) -> (vec LearningResource) query;
+  getRoadmap: (careerPathId: CareerPathId) -> (vec Milestone) query;
+  getSkillGap: (careerPathId: CareerPathId) -> (SkillGap) query;
+  listCareers: () -> (vec CareerPath) query;
+  retakeAssessment: () -> ();
+  saveMyProfile: (req: SaveProfileRequest) -> (UserProfilePublic);
+  selectCareer: (careerPathId: nat) -> ();
+  toggleMilestone: (req: ToggleMilestoneRequest) -> (UserProgress);
+}

@@ -1,0 +1,23 @@
+{
+  "overview": "Career Compass is a smart platform that helps students and job seekers discover their ideal career path through a guided assessment, then provides a step-by-step personalized roadmap with curated learning resources and progress tracking to go from confused to confident.",
+  "features": [
+    "Multi-step career assessment questionnaire with interests & skills input",
+    "Logic-based career recommendation engine with 5–8 matched career paths",
+    "Personalized step-by-step roadmap with milestones, skills, and timelines",
+    "Curated learning resources hub with videos, courses, and articles per skill",
+    "Skill gap analysis comparing current skills vs roadmap requirements",
+    "Progress tracking dashboard with visual completion bars and milestone checkboxes",
+    "User profiles persisted with Internet Identity authentication"
+  ],
+  "category": "productivity",
+  "tags": [
+    "career",
+    "education",
+    "roadmap",
+    "skill-development",
+    "learning",
+    "guidance",
+    "productivity"
+  ],
+  "last_updated": "2026-04-14T11:23:21.351Z"
+}

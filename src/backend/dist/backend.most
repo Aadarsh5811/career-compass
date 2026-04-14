@@ -1,0 +1,143 @@
+// Version: 1.0.0
+type AssessmentAnswer__257015474 = {answer : Text; questionId : Nat};
+type CareerPathId__280658961 = CareerPathId__292122690;
+type CareerPathId__292122690 = Nat;
+type CareerPathId__76695318 = CareerPathId__292122690;
+type CareerPathId__997523869 = CareerPathId__292122690;
+type CareerPath__891494505 =
+  {
+    description : Text;
+    id : CareerPathId__997523869;
+    interestTags : [Text];
+    requiredSkills : [Text];
+    salaryRange : SalaryRange__626447889;
+    sector : IndustrySector__547721675;
+    title : Text
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Difficulty__928431157 = {#advanced; #beginner; #intermediate};
+type IndustrySector__547721675 =
+  {
+    #business;
+    #creative;
+    #education;
+    #engineering;
+    #finance;
+    #healthcare;
+    #science;
+    #social;
+    #tech
+  };
+type InterestCategory__333827040 =
+  {
+    #arts;
+    #business;
+    #education;
+    #engineering;
+    #healthcare;
+    #science;
+    #social;
+    #technology
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type LearningResource__530971423 =
+  {
+    difficulty : Difficulty__928431157;
+    estimatedDuration : Text;
+    id : ResourceId__365813725;
+    resourceType : ResourceType__971842463;
+    skillTag : Text;
+    source : Text;
+    title : Text;
+    url : Text
+  };
+type LearningStyle__28914888 =
+  {#auditory; #handson; #readingWriting; #visual};
+type MilestoneId__1064118569 = MilestoneId__189280684;
+type MilestoneId__189280684 = Nat;
+type MilestoneId__520226092 = MilestoneId__189280684;
+type Milestone__819312553 =
+  {
+    careerPathId : CareerPathId__76695318;
+    description : Text;
+    estimatedTime : Text;
+    id : MilestoneId__520226092;
+    order : Nat;
+    projects : [Text];
+    requiredSkills : [Text];
+    resourceIds : [ResourceId__365813725];
+    title : Text
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type ResourceId__365813725 = ResourceId__712276042;
+type ResourceId__712276042 = Nat;
+type ResourceType__971842463 = {#article; #course; #documentation; #video};
+type SalaryRange__626447889 = {currency : Text; max : Nat; min : Nat};
+type SkillLevel__229109556 = {#advanced; #beginner; #intermediate};
+type Timestamp__301639476 = Int;
+type Timestamp__476630542 = Timestamp__301639476;
+type Timestamp__7138886 = Timestamp__301639476;
+type UserId__1023114477 = UserId__158757552;
+type UserId__158757552 = Principal;
+type UserId__320466692 = UserId__158757552;
+type UserProfile__904126653 =
+  {
+    answers : [AssessmentAnswer__257015474];
+    createdAt : Timestamp__476630542;
+    currentSkills : [Text];
+    displayName : Text;
+    experienceLevel : SkillLevel__229109556;
+    interests : [InterestCategory__333827040];
+    learningStyle : LearningStyle__28914888;
+    selectedCareerPathId : ?CareerPathId__292122690;
+    updatedAt : Timestamp__476630542;
+    userId : UserId__320466692
+  };
+type UserProgress__481995947 =
+  {
+    acquiredSkills : [Text];
+    careerPathId : CareerPathId__280658961;
+    completedCourses : [Text];
+    completedMilestones : [MilestoneId__1064118569];
+    startedAt : Timestamp__7138886;
+    updatedAt : Timestamp__7138886;
+    userId : UserId__1023114477
+  };
+actor {
+  stable careers :
+    {
+      var root :
+        Node__46230540<CareerPathId__997523869, CareerPath__891494505>;
+      var size : Nat__490723111
+    };
+  stable milestones :
+    {
+      var root : Node__46230540<MilestoneId__520226092, Milestone__819312553>;
+      var size : Nat__490723111
+    };
+  stable var nextCareerPathId : Nat;
+  stable var nextMilestoneId : Nat;
+  stable var nextResourceId : Nat;
+  stable profiles :
+    {
+      var root : Node__46230540<UserId__320466692, UserProfile__904126653>;
+      var size : Nat__490723111
+    };
+  stable progressMap :
+    {
+      var root : Node__46230540<UserId__1023114477, UserProgress__481995947>;
+      var size : Nat__490723111
+    };
+  stable resources :
+    {
+      var root :
+        Node__46230540<ResourceId__365813725, LearningResource__530971423>;
+      var size : Nat__490723111
+    }
+};
